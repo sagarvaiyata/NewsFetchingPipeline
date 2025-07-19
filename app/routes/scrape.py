@@ -2,7 +2,8 @@ from fastapi import APIRouter
 from app.models import TickerInput
 from app.services.firecrawl import scrape_markdown
 from app.services.openai_client import call_openai
-from app.services.mongo import url_exists, insert_doc
+# from app.services.mongo import url_exists, insert_doc # uncomment if using MongoDB
+from app.services.dynamo import url_exists, insert_doc
 
 router = APIRouter()
 
@@ -43,6 +44,7 @@ async def run_scrape(input: TickerInput):
 
     for item in filtered_docs:
         if url_exists(item["url"]):
+            print(f"Skipping existing URL: {item['url']}")
             continue
 
         article_md = scrape_markdown(item["url"])
@@ -56,8 +58,9 @@ async def run_scrape(input: TickerInput):
         \"\"\"{article_md}\"\"\"
 
         Extract:
-        - "date": publication date
-        - "content": full body content along contacts
+        - "date": publication date and time with the format Jul 18, 2025 at 11:00 AM ET
+
+        - "content": full body content along with contacts
         """
         parsed = call_openai(content_prompt)
 
@@ -70,6 +73,7 @@ async def run_scrape(input: TickerInput):
         if "_id" in item_clean:
             item_clean["_id"] = str(item_clean["_id"])
         new_docs.append(item_clean)
+        
 
 
     return {
