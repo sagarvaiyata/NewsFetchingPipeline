@@ -8,17 +8,35 @@ if __name__ == "__main__":
 # import psycopg2
 # from app.config import RDS_HOST, RDS_PORT, RDS_DB, RDS_USER, RDS_PASSWORD
 
-# def insert_ticker_table():
-#     conn = psycopg2.connect(
-#         host=RDS_HOST,
-#         port=RDS_PORT,
-#         database=RDS_DB,
-#         user=RDS_USER,
-#         password=RDS_PASSWORD
-#     )
+# conn = psycopg2.connect(
+#     host=RDS_HOST,
+#     port=RDS_PORT,
+#     database=RDS_DB,
+#     user=RDS_USER,
+#     password=RDS_PASSWORD
+# )
+
+# def print_businesswire_articles():
 #     try:
 #         with conn.cursor() as cur:
-#             # 1. Insert values (avoid duplicates using ON CONFLICT)
+#             cur.execute("""
+#                 SELECT url, heading, ticker, date
+#                 FROM businesswire_articles
+#                 ORDER BY date DESC
+#             """)
+#             rows = cur.fetchall()
+#             print("Businesswire Articles:")
+#             for row in rows:
+#                 print(f" - [{row[2]}] {row[1]}")
+#                 print(f"   {row[3]}")
+#                 print(f"     {row[0]}")
+#                 print()
+#     finally:
+#         conn.close()
+
+# def insert_ticker_table():
+#     try:
+#         with conn.cursor() as cur:
 #             tickers = ["AAPL", "MCS", "DK", "NVT", "DIT", "FIX", "ORBN", "CCFN", "DKL"]
 
 #             for t in tickers:
@@ -33,13 +51,6 @@ if __name__ == "__main__":
 #         conn.close()
 
 # def print_ticker_table():
-#     conn = psycopg2.connect(
-#         host=RDS_HOST,
-#         port=RDS_PORT,
-#         database=RDS_DB,
-#         user=RDS_USER,
-#         password=RDS_PASSWORD
-#     )
 #     try:
 #         with conn.cursor() as cur:
 #             cur.execute("SELECT ticker FROM ticker_table ORDER BY ticker")
@@ -52,5 +63,5 @@ if __name__ == "__main__":
 
 
 # if __name__ == "__main__":
-#     print_ticker_table()
+#     print_businesswire_articles()
 
