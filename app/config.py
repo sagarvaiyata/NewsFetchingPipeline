@@ -17,6 +17,12 @@ AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION")
 DYNAMO_TABLE_NAME = os.getenv("DYNAMO_TABLE_NAME", "NewsScrapingDB")
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 
+RDS_HOST = os.getenv("RDS_HOST")
+RDS_DB = os.getenv("RDS_DB")
+RDS_USER = os.getenv("RDS_USER")
+RDS_PASSWORD = os.getenv("RDS_PASSWORD")
+RDS_PORT = os.getenv("RDS_PORT")
+
 # Optional: validate required variables
 required = {
     "FIRECRAWL_API_KEY": FIRECRAWL_API_KEY,

@@ -5,3 +5,4 @@ openai
 firecrawl
 pymongo
 boto3
+psycopg2-binary
