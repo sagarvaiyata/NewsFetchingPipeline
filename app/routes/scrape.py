@@ -3,6 +3,8 @@ from app.models import TickerInput
 from app.services.firecrawl import scrape_markdown
 from app.services.openai_client import call_openai
 from app.services.rds import url_exists, insert_doc, get_allowed_tickers
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 router = APIRouter()
 
@@ -11,6 +13,12 @@ async def run_scrape():
     # 1) scrape the listing page
     target_url = "https://www.businesswire.com/newsroom?region=1000400&language=en&subject=1000006"
     listing_md = scrape_markdown(target_url)
+
+    # Get current time in Eastern Time
+    now_et = datetime.now(ZoneInfo("America/Toronto"))
+
+    # Format as: Jul 18, 2025 at 11:00 AM ET
+    formatted_date = now_et.strftime("%b %d, %Y at %I:%M %p ET")
 
     # 2) extract heading/url/ticker/date in one shot
     prompt = f"""
@@ -22,7 +30,9 @@ async def run_scrape():
       - "heading": the article title
       - "url": the href
       - "ticker": stock symbol only (e.g. "AAPL", not "NASDAQ: AAPL"). Empty string if none.
-      - "date": publication date and time with the format Jul 18, 2025 at 11:00 AM ET
+      - "date": publication date and time with the format Jul 18, 2025 at 11:00 AM ET. 
+    
+    If you are unsure, keep the date and time as {formatted_date}.
 
     Output a JSON array of objects.
     """
