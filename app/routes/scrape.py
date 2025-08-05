@@ -32,7 +32,7 @@ async def run_scrape():
         - "heading": the article title
         - "url": the href
         - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
-        - "date": publication date & time as {formatted_date}
+        - "date": publication date & time as a string (e.g. "Jul 31, 2025 at 12:44 PM ET")
         - "fetched_at": the current time ({formatted_date})
 
         Output a JSON array of objects.
