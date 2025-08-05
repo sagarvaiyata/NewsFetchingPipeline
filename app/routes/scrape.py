@@ -17,7 +17,7 @@ async def run_scrape():
 
     # 2) build timestamp
     now_et = datetime.now(ZoneInfo("America/Toronto"))
-    formatted_date = now_et.strftime("%b %d, %Y at %I:%M %p ET")
+    formatted_date = now_et.strftime("%b %d, %Y %I:%M %p ET")
 
     # 3) build your prompt (with filtering instructions)
     prompt = f"""
