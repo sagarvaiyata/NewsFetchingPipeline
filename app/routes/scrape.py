@@ -23,9 +23,12 @@ async def run_scrape():
     prompt = f"""
         You are a JSON generator. Output *only* valid JSON.
 
-        From this markdown:
+        Below is ATX-style markdown scraped from a news listing page. **Ignore** any navigation menus, headers, footers, ads, sidebars, comments, or unrelated text—only extract the real article entries.
+
+        Markdown:
         \"\"\"{listing_md}\"\"\"
-        Extract the list of articles that has heading and then other content. For each, return an object with:
+
+        For each news article, return an object with:
         - "heading": the article title
         - "url": the href
         - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
