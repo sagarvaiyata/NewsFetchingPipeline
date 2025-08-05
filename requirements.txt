@@ -6,3 +6,4 @@ firecrawl
 pymongo
 boto3
 psycopg2-binary
+crawl4ai==0.7.2
