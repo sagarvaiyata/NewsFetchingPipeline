@@ -1,45 +1,3 @@
-# import psycopg2
-# from psycopg2.extras import RealDictCursor
-# from app.config import RDS_HOST, RDS_DB, RDS_USER, RDS_PASSWORD, RDS_PORT
-
-# def get_connection():
-#     return psycopg2.connect(
-#         host=RDS_HOST,
-#         port=RDS_PORT,
-#         database=RDS_DB,
-#         user=RDS_USER,
-#         password=RDS_PASSWORD
-#     )
-
-# def url_exists(url: str) -> bool:
-#     conn = get_connection()
-#     try:
-#         with conn.cursor() as cur:
-#             cur.execute("SELECT 1 FROM businesswire_articles WHERE url = %s", (url,))
-#             return cur.fetchone() is not None
-#     finally:
-#         conn.close()
-
-# def insert_doc(doc: dict):
-#     conn = get_connection()
-#     try:
-#         with conn.cursor() as cur:
-#             cur.execute("""
-#                 INSERT INTO businesswire_articles (url, heading, ticker, date, content)
-#                 VALUES (%s, %s, %s, %s, %s)
-#                 ON CONFLICT (url) DO NOTHING
-#             """, (
-#                 doc["url"],
-#                 doc["heading"],
-#                 doc["ticker"],
-#                 doc["date"],
-#                 doc["content"]
-#             ))
-#             conn.commit()
-#     finally:
-#         conn.close()
-
-
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from app.config import RDS_HOST, RDS_DB, RDS_USER, RDS_PASSWORD, RDS_PORT
@@ -86,15 +44,16 @@ def insert_doc(doc: dict):
     try:
         with conn.cursor() as cur:
             cur.execute("""
-                INSERT INTO businesswire_articles (url, heading, ticker, date, content)
-                VALUES (%s, %s, %s, %s, %s)
+                INSERT INTO businesswire_articles (url, heading, ticker, date, fetched_at, content)
+                VALUES (%s, %s, %s, %s, %s, %s)
                 ON CONFLICT (url) DO NOTHING
             """, (
                 doc["url"],
                 doc["heading"],
                 doc["ticker"],
                 doc["date"],
-                json.dumps(doc["content"])  # Safely store as JSON string
+                doc["fetched_at"],
+                json.dumps(doc["content"])  # Safely store as JSON string--
             ))
             conn.commit()
     finally:
