@@ -7,6 +7,6 @@ async def fetch_markdown_crawl4ai(url: str) -> str:
     """
     # You can pass BrowserConfig, CrawlerRunConfig, etc. if you need to tweak behavior
     async with AsyncWebCrawler() as crawler:
-        result = await crawler.run(url=url)
+        result = await crawler.arun(url=url)
         return result.markdown
 
