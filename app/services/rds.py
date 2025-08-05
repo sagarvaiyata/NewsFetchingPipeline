@@ -45,7 +45,7 @@ def insert_doc(doc: dict):
         with conn.cursor() as cur:
             cur.execute("""
                 INSERT INTO businesswire_articles (url, heading, ticker, date, fetched_at, content)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (url) DO NOTHING
             """, (
                 doc["url"],
