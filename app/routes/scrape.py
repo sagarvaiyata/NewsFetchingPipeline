@@ -25,7 +25,7 @@ async def run_scrape():
 
         From this markdown:
         \"\"\"{listing_md}\"\"\"
-        extract every link. For each, return an object with:
+        extract all news articles only. For each, return an object with:
         - "heading": the article title
         - "url": the href
         - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
