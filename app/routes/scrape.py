@@ -75,8 +75,8 @@ async def run_scrape():
 
     return {
         "message": "Scrape complete",
-        "new_documents_count": len(new_docs),
-        "new_documents": new_docs,
+        "new_documents_count": len(docs),
+        "new_documents": docs,
     }
 
 @router.get("/health", summary="Service health check")
