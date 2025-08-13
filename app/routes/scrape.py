@@ -15,31 +15,30 @@ async def run_scrape():
     target_url = "https://www.businesswire.com/newsroom?region=1000400&language=en&subject=1000006"
     listing_md = await scrape_markdown(target_url)
 
-    # 2) build timestamp
+    # 2) Current ET timestamp
     now_et = datetime.now(ZoneInfo("America/Toronto"))
     formatted_date = now_et.strftime("%b %d, %Y at %I:%M %p ET")
 
-    # 3) build your prompt (with filtering instructions)
     prompt = f"""
     You are a JSON generator. Output *only* valid JSON.
 
     Below is ATX-style markdown scraped from a news listing page.
-    Ignore menus, headers, footers, ads, sidebars, comments, or unrelated text — only extract the real article entries.
+
+    Ignore navigation menus, headers, footers, ads, sidebars, comments, or any unrelated text. Focus only on actual news article entries.
 
     Markdown:
     \"\"\"{listing_md}\"\"\"
 
-    For each news article, return an object with:
+    For each news article, return a JSON object with the following fields:
     - "heading": the article title (string)
     - "url": the href (string)
-    - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
-    - "date": the article's publication date & time **exactly as it appears in the markdown**. 
-       If no date is present, use an empty string. 
-       Never guess or substitute — especially do NOT use the fetch date.
+    - "ticker": stock symbol only (e.g., "AAPL"); return an empty string if none
+    - "date": the **exact** publication date and time **as shown in the markdown**.
+    Do not alter formatting or substitute values.
+    Date must not be missing, you will find it in specific publication markdown.
     - "fetched_at": the current time ({formatted_date})
 
-    Output a JSON array of objects.
-    The "date" field must only reflect the date/time shown alongside the article in the markdown, and in almost all the cases date will be provided.
+    Output must be a JSON array of objects. Each object must reflect the information exactly as it appears in the markdown — especially the "date" field. Do not infer or fill in missing information.
     """.strip()
 
     # 4) call your sync OpenAI helper in a thread so it won't block
