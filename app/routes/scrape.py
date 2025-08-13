@@ -17,7 +17,7 @@ async def run_scrape():
 
     # 2) build timestamp
     now_et = datetime.now(ZoneInfo("America/Toronto"))
-    formatted_date = now_et.strftime("%b %d, %Y %I:%M %p ET")
+    formatted_date = now_et.strftime("%b %d, %Y at %I:%M %p ET")
 
     # 3) build your prompt (with filtering instructions)
     prompt = f"""
@@ -32,7 +32,7 @@ async def run_scrape():
         - "heading": the article title
         - "url": the href
         - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
-        - "date": publication date & time as a string (e.g. "Jul 31, 2025 12:44 PM ET")
+        - "date": publication date & time as a string (e.g. "Jul 31, 2025 12:44 PM ET"). It is the exact timing of the article's publication.
         - "fetched_at": the current time ({formatted_date})
 
         Output a JSON array of objects.
