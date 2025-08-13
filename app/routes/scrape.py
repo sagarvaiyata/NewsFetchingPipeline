@@ -95,3 +95,9 @@ async def health_check():
     except Exception:
         raise HTTPException(status_code=503, detail="Database connection failed")
     return {"status": "ok"}
+
+@router.get("/markdown-fetch", summary="Fetch raw markdown from listing page")
+async def markdown_fetch():
+    target_url = "https://www.businesswire.com/newsroom?region=1000400&language=en&subject=1000006"
+    listing_md = await scrape_markdown(target_url)
+    return {"markdown": listing_md}
