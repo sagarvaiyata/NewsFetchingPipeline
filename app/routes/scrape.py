@@ -34,12 +34,12 @@ async def run_scrape():
     - "url": the href (string)
     - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
     - "date": the article's publication date & time **exactly as it appears in the markdown**. 
-    If no date is present, use an empty string. 
-    Never guess or substitute — especially do NOT use the fetch date.
+       If no date is present, use an empty string. 
+       Never guess or substitute — especially do NOT use the fetch date.
     - "fetched_at": the current time ({formatted_date})
 
     Output a JSON array of objects.
-    The "date" field must only reflect the date/time shown alongside the article in the markdown, or be empty if none is shown.
+    The "date" field must only reflect the date/time shown alongside the article in the markdown, and in almost all the cases date will be provided.
     """.strip()
 
     # 4) call your sync OpenAI helper in a thread so it won't block
