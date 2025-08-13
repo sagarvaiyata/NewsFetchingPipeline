@@ -33,7 +33,7 @@ async def run_scrape():
     - "heading": the article title (string)
     - "url": the href (string)
     - "ticker": stock symbol only (e.g., "AAPL"); return an empty string if none
-    - "date": the **exact** publication date and time **as shown in the markdown**. It will be in **Aug 12, 2025 at 11:38 PM ET** format.
+    - "date": the **exact** publication date and time **as shown in the markdown**. It will be in **Month DD, YYYY at HH:MM AM/PM ET** format.
     Do not alter formatting or substitute values.
     Date must not be missing, you will find it in specific publication markdown.
     - "fetched_at": the current time ({formatted_date})
