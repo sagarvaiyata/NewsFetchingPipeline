@@ -21,22 +21,26 @@ async def run_scrape():
 
     # 3) build your prompt (with filtering instructions)
     prompt = f"""
-        You are a JSON generator. Output *only* valid JSON.
+    You are a JSON generator. Output *only* valid JSON.
 
-        Below is ATX-style markdown scraped from a news listing page. **Ignore** any navigation menus, headers, footers, ads, sidebars, comments, or unrelated text—only extract the real article entries.
+    Below is ATX-style markdown scraped from a news listing page.
+    Ignore menus, headers, footers, ads, sidebars, comments, or unrelated text — only extract the real article entries.
 
-        Markdown:
-        \"\"\"{listing_md}\"\"\"
+    Markdown:
+    \"\"\"{listing_md}\"\"\"
 
-        For each news article, return an object with:
-        - "heading": the article title
-        - "url": the href
-        - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
-        - "date": publication date & time as a string (e.g. "Jul 31, 2025 12:44 PM ET"). It is the exact timing of the article's publication.
-        - "fetched_at": the current time ({formatted_date})
+    For each news article, return an object with:
+    - "heading": the article title (string)
+    - "url": the href (string)
+    - "ticker": stock symbol only (e.g. "AAPL"; empty string if none)
+    - "date": the article's publication date & time **exactly as it appears in the markdown**. 
+    If no date is present, use an empty string. 
+    Never guess or substitute — especially do NOT use the fetch date.
+    - "fetched_at": the current time ({formatted_date})
 
-        Output a JSON array of objects.
-        """.strip()
+    Output a JSON array of objects.
+    The "date" field must only reflect the date/time shown alongside the article in the markdown, or be empty if none is shown.
+    """.strip()
 
     # 4) call your sync OpenAI helper in a thread so it won't block
     loop = asyncio.get_running_loop()
